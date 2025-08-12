@@ -24,7 +24,7 @@ function createTools(apiToken: string): Tool[] {
       },
       async call() {
         const notes = await api.getNoteList();
-        return notes.map(note => `- ${note.title}`).join("\n");
+        return notes.map((note) => `- ${note.title}`).join("\n");
       },
     },
     {
