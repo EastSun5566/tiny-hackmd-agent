@@ -17,14 +17,14 @@ function createTools(apiToken: string): Tool[] {
   return [
     {
       name: "list_notes",
-      description: "List all notes",
+      description: "List all notes from HackMD",
       input_schema: {
         type: "object",
         properties: {},
       },
       async call() {
         const notes = await api.getNoteList();
-        return JSON.stringify(notes);
+        return notes.map(note => `- ${note.title}`).join("\n");
       },
     },
     {
@@ -40,9 +40,9 @@ function createTools(apiToken: string): Tool[] {
         },
         required: ["noteId"],
       },
-      async call({ noteId }) {
+      async call({ noteId }: { noteId: string }) {
         const note = await api.getNote(noteId);
-        return JSON.stringify(note);
+        return `# ${note.title}\n\n${note.content}`;
       },
     },
     {
@@ -151,7 +151,7 @@ async function runAgent(ai: Anthropic, tools: Tool[] = []) {
           is_error: !result,
         });
 
-        console.log(`🔧 Result: ${result}`);
+        console.log(`🔧 Result:\n${result}`);
       }
     }
 
