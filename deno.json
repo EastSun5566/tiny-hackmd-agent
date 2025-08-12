@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-read --allow-write --allow-env agent.ts"
+  },
+  "imports": {
+    "@anthropic-ai/sdk": "npm:@anthropic-ai/sdk@^0.59.0",
+    "@hackmd/api": "npm:@hackmd/api@^2.5.0",
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
