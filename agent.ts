@@ -24,7 +24,7 @@ function createTools(apiToken: string): Tool[] {
       },
       async call() {
         const notes = await api.getNoteList();
-        return JSON.stringify(notes)
+        return JSON.stringify(notes);
       },
     },
     {
@@ -132,7 +132,7 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
       max_tokens: 1024,
       messages: conversation,
       tools,
-      system: 'You are a helpful agent for managing HackMD notes.'
+      system: "You are a helpful agent for managing HackMD notes.",
     });
     conversation.push({ role: "assistant", content: message.content });
 
@@ -142,7 +142,6 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
       if (content.type === "text") {
         console.log(`🤖: ${content.text}`);
       }
-
       if (content.type === "tool_use") {
         const tool = tools.find(({ name }) => name === content.name);
         console.log(`🔧 Using: ${content.name}...`);
