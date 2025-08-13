@@ -110,7 +110,7 @@ function createTools(apiToken: string): Tool[] {
   ];
 }
 
-async function runAgent(ai: Anthropic, tools: Tool[] = []) {
+export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
   const conversation: Anthropic.MessageParam[] = [];
   console.log("Chat with HackMD Agent (ctrl-c to quit)");
 
