@@ -12,7 +12,8 @@ of code.
 ## Usage
 
 ```bash
-HACKMD_API_TOKEN="<API_TOKEN>" \
-ANTHROPIC_API_KEY="<API_KEY>" \
+HACKMD_API_TOKEN=<YOUR_TOKEN>
+ANTHROPIC_API_KEY=<YOUR_KEY>
+
 deno task start
 ```
