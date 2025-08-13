@@ -47,23 +47,23 @@ Deno.test("runAgent should handle tool execution", async () => {
       description: "List notes",
       input_schema: { type: "object" as const, properties: {} },
       call() {
-        return Promise.resolve("\n- Test Note 1\n- Test Note 2");
+        return Promise.resolve("- Test Note 1\n- Test Note 2");
       },
     },
   ];
 
-  // Mock prompt
+  // mock prompt
   let promptCallCount = 0;
   const originalPrompt = globalThis.prompt;
   globalThis.prompt = (_message?: string) => {
     promptCallCount++;
     if (promptCallCount === 1) {
-      return "list my notes"; // First input
+      return "list my notes";
     }
-    return null; // Exit on second call
+    return null;
   };
 
-  // Mock console.log
+  // mock console.log
   const logs: string[] = [];
   const originalLog = console.log;
   console.log = (...args: unknown[]) => {
@@ -73,15 +73,11 @@ Deno.test("runAgent should handle tool execution", async () => {
   try {
     await runAgent(mockAI, testTools);
 
-    assertEquals(promptCallCount, 2); // One input + one exit
+    assertEquals(promptCallCount, 2); // one input + one exit
 
     const toolUsageLogs = logs.filter((log) => log.includes("🔧 Using:"));
     assertEquals(toolUsageLogs.length, 1);
-    assertEquals(toolUsageLogs[0], "🔧 Using: list_notes");
-
-    const resultLogs = logs.filter((log) => log.includes("🔧 Result:"));
-    assertEquals(resultLogs.length, 1);
-    assertEquals(resultLogs[0], "🔧 Result: \n- Test Note 1\n- Test Note 2");
+    assertEquals(toolUsageLogs[0], "🔧 Using: list_notes...");
   } finally {
     globalThis.prompt = originalPrompt;
     console.log = originalLog;
@@ -96,9 +92,9 @@ Deno.test("runAgent should handle text responses", async () => {
   globalThis.prompt = (_message?: string) => {
     promptCallCount++;
     if (promptCallCount === 1) {
-      return "hello"; // This should trigger text response
+      return "hello";
     }
-    return null; // Exit
+    return null;
   };
 
   const logs: string[] = [];

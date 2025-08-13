@@ -24,7 +24,7 @@ function createTools(apiToken: string): Tool[] {
       },
       async call() {
         const notes = await api.getNoteList();
-        return notes.map((note) => `\n- ${note.title}`).join("\n");
+        return JSON.stringify(notes)
       },
     },
     {
@@ -42,7 +42,7 @@ function createTools(apiToken: string): Tool[] {
       },
       async call({ noteId }: { noteId: string }) {
         const note = await api.getNote(noteId);
-        return `# ${note.title}\n\n${note.content}`;
+        return JSON.stringify(note);
       },
     },
     {
@@ -114,11 +114,15 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
   const conversation: Anthropic.MessageParam[] = [];
   console.log("Chat with HackMD Agent (ctrl-c to quit)");
 
-  let readInput = true;
+  // main loop
   while (true) {
-    if (readInput) {
+    // If last message is not from user, we need user input
+    if (
+      conversation.length === 0 ||
+      conversation[conversation.length - 1].role !== "user"
+    ) {
       const input = prompt("😂: ");
-      if (!input) break;
+      if (!input) break; // press ctrl-c
 
       conversation.push({ role: "user", content: input });
     }
@@ -128,9 +132,11 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
       max_tokens: 1024,
       messages: conversation,
       tools,
+      system: 'You are a helpful agent for managing HackMD notes.'
     });
     conversation.push({ role: "assistant", content: message.content });
 
+    // Process response and execute tools
     const toolResults: Anthropic.ToolResultBlockParam[] = [];
     for (const content of message.content) {
       if (content.type === "text") {
@@ -139,29 +145,24 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
 
       if (content.type === "tool_use") {
         const tool = tools.find(({ name }) => name === content.name);
-        console.log(`🔧 Using: ${content.name}`);
+        console.log(`🔧 Using: ${content.name}...`);
 
         const result = tool
-          ? await tool.call(content.input).catch(console.error)
+          ? await tool.call(content.input).catch(String)
           : "tool not found";
+
         toolResults.push({
           type: "tool_result",
           tool_use_id: content.id,
-          content: result || "error",
-          is_error: !result,
+          content: result,
         });
-
-        console.log(`🔧 Result: ${result}`);
       }
     }
 
-    if (toolResults.length === 0) {
-      readInput = true;
-      continue;
+    // If there are tool results, add them to conversation
+    if (toolResults.length > 0) {
+      conversation.push({ role: "user", content: toolResults });
     }
-
-    conversation.push({ role: "user", content: toolResults });
-    readInput = false;
   }
 }
 
