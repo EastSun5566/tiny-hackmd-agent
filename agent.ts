@@ -28,8 +28,8 @@ function createTools(apiToken: string): Tool[] {
       },
     },
     {
-      name: "get_note",
-      description: "Get a note content by ID",
+      name: "read_note",
+      description: "Read a note content by ID",
       input_schema: {
         type: "object",
         properties: {
