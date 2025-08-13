@@ -5,15 +5,14 @@ of code.
 
 ## Requirements
 
-- [Deno](https://deno.com/)
+- [Deno](https://deno.com/) v2
 - [HackMD API Token](https://hackmd.io/settings#api)
 - [Anthropic API Key](https://console.anthropic.com/account/keys)
 
 ## Usage
 
 ```bash
-export HACKMD_API_TOKEN="<YOUR_HACKMD_API_TOKEN>"
-export ANTHROPIC_API_KEY="<YOUR_ANTHROPIC_API_KEY>"
-
+HACKMD_API_TOKEN="<API_TOKEN>" \
+ANTHROPIC_API_KEY="<API_KEY>" \
 deno task start
 ```
