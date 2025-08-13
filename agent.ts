@@ -24,7 +24,7 @@ function createTools(apiToken: string): Tool[] {
       },
       async call() {
         const notes = await api.getNoteList();
-        return notes.map((note) => `- ${note.title}`).join("\n");
+        return notes.map((note) => `\n- ${note.title}`).join("\n");
       },
     },
     {
@@ -151,7 +151,7 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
           is_error: !result,
         });
 
-        console.log(`🔧 Result:\n${result}`);
+        console.log(`🔧 Result: ${result}`);
       }
     }
 

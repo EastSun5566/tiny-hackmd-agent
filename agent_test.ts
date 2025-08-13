@@ -47,7 +47,7 @@ Deno.test("runAgent should handle tool execution", async () => {
       description: "List notes",
       input_schema: { type: "object" as const, properties: {} },
       call() {
-        return Promise.resolve("- Test Note 1\n- Test Note 2");
+        return Promise.resolve("\n- Test Note 1\n- Test Note 2");
       },
     },
   ];
@@ -81,7 +81,7 @@ Deno.test("runAgent should handle tool execution", async () => {
 
     const resultLogs = logs.filter((log) => log.includes("🔧 Result:"));
     assertEquals(resultLogs.length, 1);
-    assertEquals(resultLogs[0], "🔧 Result:\n- Test Note 1\n- Test Note 2");
+    assertEquals(resultLogs[0], "🔧 Result: \n- Test Note 1\n- Test Note 2");
   } finally {
     globalThis.prompt = originalPrompt;
     console.log = originalLog;
