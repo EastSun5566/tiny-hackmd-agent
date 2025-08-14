@@ -12,8 +12,8 @@ Blog post: <https://hackmd.io/@EastSun5566/building-a-tiny-hackmd-agent>
 - [Anthropic API Key](https://console.anthropic.com/account/keys)
 
 ```bash
-HACKMD_API_TOKEN=<YOUR_TOKEN>
-ANTHROPIC_API_KEY=<YOUR_KEY>
+export HACKMD_API_TOKEN=<YOUR_TOKEN>
+export ANTHROPIC_API_KEY=<YOUR_KEY>
 
 deno task start
 ```
