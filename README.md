@@ -1,15 +1,15 @@
 # Tiny HackMD Agent
 
-This is a simple, tiny agent for interacting with HackMD notes — only 100+ lines
-of code.
+> This is a simple, tiny agent for interacting with HackMD notes — only 100+
+> lines of code.
 
-## Requirements
+Blog post: <https://hackmd.io/@EastSun5566/tiny-hackmd-agent>
 
-- [Deno](https://deno.com/) v2
+## Getting Started
+
+- [Deno](https://deno.com/) v2+
 - [HackMD API Token](https://hackmd.io/settings#api)
 - [Anthropic API Key](https://console.anthropic.com/account/keys)
-
-## Usage
 
 ```bash
 HACKMD_API_TOKEN=<YOUR_TOKEN>

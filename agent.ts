@@ -63,8 +63,8 @@ function createTools(apiToken: string): Tool[] {
         required: ["title", "content"],
       },
       call: async (options: { title: string; content: string }) => {
-        await api.createNote(options);
-        return "ok";
+        const note = await api.createNote(options);
+        return JSON.stringify(note);
       },
     },
     {
@@ -85,8 +85,8 @@ function createTools(apiToken: string): Tool[] {
         required: ["noteId"],
       },
       async call({ noteId, content }: { noteId: string; content: string }) {
-        await api.updateNote(noteId, { content });
-        return "ok";
+        const note = await api.updateNote(noteId, { content });
+        return JSON.stringify(note);
       },
     },
     {
@@ -115,12 +115,9 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
   console.log("Chat with HackMD Agent (ctrl-c to quit)");
 
   // main loop
+  let shouldReadInput = true;
   while (true) {
-    // If last message is not from user, we need user input
-    if (
-      conversation.length === 0 ||
-      conversation[conversation.length - 1].role !== "user"
-    ) {
+    if (shouldReadInput) {
       const input = prompt("😂: ");
       if (!input) break; // press ctrl-c
 
@@ -147,9 +144,8 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
         console.log(`🔧 Using: ${content.name}...`);
 
         const result = tool
-          ? await tool.call(content.input).catch(String)
+          ? await tool.call(content.input).catch(JSON.stringify)
           : "tool not found";
-
         toolResults.push({
           type: "tool_result",
           tool_use_id: content.id,
@@ -159,9 +155,11 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
     }
 
     // If there are tool results, add them to conversation
-    if (toolResults.length > 0) {
+    const hasToolResults = toolResults.length > 0;
+    if (hasToolResults) {
       conversation.push({ role: "user", content: toolResults });
     }
+    shouldReadInput = !hasToolResults;
   }
 }
 
