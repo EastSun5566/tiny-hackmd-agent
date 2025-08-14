@@ -3,7 +3,7 @@
 > This is a simple, super tiny agent for interacting with HackMD notes with Just
 > 100+ LOC
 
-Blog post: <https://hackmd.io/@EastSun5566/building-tiny-hackmd-agent>
+Blog post: <https://hackmd.io/@EastSun5566/building-a-tiny-hackmd-agent>
 
 ## Getting Started
 
