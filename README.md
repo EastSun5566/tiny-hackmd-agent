@@ -17,3 +17,7 @@ ANTHROPIC_API_KEY=<YOUR_KEY>
 
 deno task start
 ```
+
+## Screenshots
+
+![Conversation Screenshot](Screenshot.png)
