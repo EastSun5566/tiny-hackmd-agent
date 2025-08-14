@@ -1,9 +1,9 @@
 # Tiny HackMD Agent
 
-> This is a simple, tiny agent for interacting with HackMD notes — only 100+
-> lines of code.
+> This is a simple, super tiny agent for interacting with HackMD notes with Just
+> 100+ LOC
 
-Blog post: <https://hackmd.io/@EastSun5566/tiny-hackmd-agent>
+Blog post: <https://hackmd.io/@EastSun5566/building-tiny-hackmd-agent>
 
 ## Getting Started
 
