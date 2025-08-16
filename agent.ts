@@ -124,8 +124,9 @@ export async function runAgent(ai: Anthropic, tools: Tool[] = []) {
       conversation.push({ role: "user", content: input });
     }
 
+    // chat with LLM
     const message = await ai.messages.create({
-      model: "claude-3-haiku-20240307",
+      model: "claude-3-5-haiku-latest",
       max_tokens: 1024,
       messages: conversation,
       tools,
